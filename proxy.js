@@ -5,11 +5,6 @@ var url = require('url')
 var PORT = process.argv[2] || 5000;
 
 var server = http.createServer(function(req, res) {
-  if (req.method === 'OPTIONS') {
-    // CORS Preflight
-    res.send();
-  }
-
   var reqUrl = req.url.substr(1);
   console.log('==> Making req for' + reqUrl + '\n');
 
