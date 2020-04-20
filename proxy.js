@@ -5,6 +5,11 @@ var url = require('url')
 var PORT = process.argv[2] || 5000;
 
 var server = http.createServer(function(req, res) {
+  if (req.method === 'OPTIONS') {
+    // CORS Preflight
+    res.send();
+  }
+
   var reqUrl = req.url.substr(1);
   console.log('==> Making req for' + reqUrl + '\n');
 
@@ -26,9 +31,10 @@ var server = http.createServer(function(req, res) {
 
     serverResponse.pause();
 
+    // Set CORS headers: allow all origins, methods, and headers: you may want to lock this down in a production environment
     serverResponse.headers['Access-Control-Allow-Origin'] = '*';
     serverResponse.headers['Access-Control-Allow-Credentials'] = 'true';
-    serverResponse.headers['Access-Control-Allow-Methods'] = 'GET,HEAD,OPTIONS,POST,PUT';
+    serverResponse.headers['Access-Control-Allow-Methods'] = 'GET, PUT, PATCH, POST, DELETE';
     serverResponse.headers['Access-Control-Allow-Headers'] = '*';
 
     console.log('\t-> Customized Response Headers: ', serverResponse.headers);
